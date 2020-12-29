@@ -1,6 +1,7 @@
 package com.app.mycoolapp.service;
 
 import com.app.mycoolapp.dto.BookTripModel;
+import com.app.mycoolapp.dto.Status;
 import com.app.mycoolapp.dto.TripResponse;
 import com.app.mycoolapp.entity.Driver;
 import com.app.mycoolapp.entity.Passenger;
@@ -31,20 +32,20 @@ public class TripOperationServiceImpl implements TripOperationService {
         // Update Trip Table (trip_end_time, status = 'cancel')
         Trip trip = new Trip();
         trip.setId(tripId);
-        trip.setStatus("cancel");
+        trip.setStatus(Status.CANCEL.getCode());
         trip.setEndTime(new Date().toString());
         TripResponse tripResponse = entityMapper.tripToTripResponse(tripService.updateTrip(trip));
-        long driver_id = tripResponse.getDriverResponse().getId();
-        long passenger_id = tripResponse.getPassengerResponse().getId();
-        // Update Driver Table (status='inactive') where driver_id is given
+        long driverId = tripResponse.getDriverResponse().getId();
+        long passengerId = tripResponse.getPassengerResponse().getId();
+        // Update Driver Table (status='inactive') where driverId is given
         Driver driver = new Driver();
-        driver.setStatus("inactive");
-        driver.setId(driver_id);
+        driver.setStatus(Status.INACTIVE.getCode());
+        driver.setId(driverId);
         driverService.updateDriver(driver);
-        // Update Passenger Table (status='inactive') where passenger_id is given
+        // Update Passenger Table (status='inactive') where passengerId is given
         Passenger passenger = new Passenger();
-        passenger.setStatus("inactive");
-        passenger.setId(passenger_id);
+        passenger.setStatus(Status.INACTIVE.getCode());
+        passenger.setId(passengerId);
         passengerService.updatePassenger(passenger);
         return tripResponse;
     }
@@ -54,20 +55,20 @@ public class TripOperationServiceImpl implements TripOperationService {
         // Update Trip Table (trip_end_time, status = 'complete')
         Trip trip = new Trip();
         trip.setId(tripId);
-        trip.setStatus("complete");
+        trip.setStatus(Status.COMPLETE.getCode());
         trip.setEndTime(new Date().toString());
         TripResponse tripResponse = entityMapper.tripToTripResponse(tripService.updateTrip(trip));
-        long driver_id = tripResponse.getDriverResponse().getId();
-        long passenger_id = tripResponse.getPassengerResponse().getId();
-        // Update Driver Table (status='inactive') where driver_id is given
+        long driverId = tripResponse.getDriverResponse().getId();
+        long passengerId = tripResponse.getPassengerResponse().getId();
+        // Update Driver Table (status='inactive') where driverId is given
         Driver driver = new Driver();
-        driver.setStatus("inactive");
-        driver.setId(driver_id);
+        driver.setStatus(Status.INACTIVE.getCode());
+        driver.setId(driverId);
         driverService.updateDriver(driver);
-        // Update Passenger Table (status='inactive') where passenger_id is given
+        // Update Passenger Table (status='inactive') where passengerId is given
         Passenger passenger = new Passenger();
-        passenger.setStatus("inactive");
-        passenger.setId(passenger_id);
+        passenger.setStatus(Status.INACTIVE.getCode());
+        passenger.setId(passengerId);
         passengerService.updatePassenger(passenger);
         return tripResponse;
     }
@@ -82,17 +83,17 @@ public class TripOperationServiceImpl implements TripOperationService {
         }
 
         // DriverID Retrieval from all available drivers (status = "inactive") && Select First Available Driver
-        long driver_id = driverService.getSingleAvailableDriver();
+        long driverId = driverService.getSingleAvailableDriver();
 
         Driver driver = new Driver();
-        driver.setId(driver_id);
+        driver.setId(driverId);
 
         Passenger passenger = new Passenger();
         passenger.setId(bookTripModel.getPassengerId());
 
-        // Insert into Trip Table (driver_id,passenger_id,start_loc_id,end_loc_id,start_time,status="active") , Foreign Key Reference Check
+        // Insert into Trip Table (driverId,passengerId,start_loc_id,end_loc_id,start_time,status="active") , Foreign Key Reference Check
         Trip trip = new Trip();
-        trip.setStatus("active");
+        trip.setStatus(Status.ACTIVE.getCode());
         trip.setStartLocId(bookTripModel.getStartLocId());
         trip.setEndLocId(bookTripModel.getEndLocId());
         trip.setStartTime(new Date().toString());
@@ -100,7 +101,7 @@ public class TripOperationServiceImpl implements TripOperationService {
         trip.setPassenger(passenger);
         TripResponse tripResponse = entityMapper.tripToTripResponse(tripService.save(trip));
 
-        String status = "active";
+        String status = Status.ACTIVE.getCode();
         // Update Driver Table  status = "active"
         driver.setStatus(status);
         driverService.updateDriver(driver);
@@ -108,7 +109,6 @@ public class TripOperationServiceImpl implements TripOperationService {
         // Update Passenger Table status = "active"
         passenger.setStatus(status);
         passengerService.updatePassenger(passenger);
-
 
         return tripResponse;
     }

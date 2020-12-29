@@ -21,6 +21,10 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+//    @ExceptionHandler(RuntimeException.class)
+//    public final NotFoundException extends RuntimeException{
+//    }
+
 //    @ExceptionHandler(DriverNotFoundException.class)
 //    public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(DriverNotFoundException ex, WebRequest request) {
 //        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),

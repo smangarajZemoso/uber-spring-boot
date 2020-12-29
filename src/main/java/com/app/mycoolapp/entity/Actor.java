@@ -1,6 +1,8 @@
 package com.app.mycoolapp.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
+@AllArgsConstructor
+@NoArgsConstructor
 public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

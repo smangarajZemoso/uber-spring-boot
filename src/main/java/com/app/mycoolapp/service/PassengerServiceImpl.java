@@ -1,13 +1,13 @@
 package com.app.mycoolapp.service;
 
 import com.app.mycoolapp.dao.PassengerRepository;
+import com.app.mycoolapp.dto.Status;
 import com.app.mycoolapp.entity.Passenger;
 import com.app.mycoolapp.dto.SignupModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PassengerServiceImpl implements PassengerService {
@@ -22,14 +22,7 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public Passenger findById(long theId) {
-        Optional<Passenger> result = passengerRepository.findById(theId);
-        Passenger thePassenger;
-        if (result.isPresent()) {
-            thePassenger = result.get();
-        } else {
-            throw new RuntimeException("Did not find Passenger ID" + theId);
-        }
-        return thePassenger;
+        return passengerRepository.findById(theId).orElseThrow(RuntimeException::new);
     }
 
     @Override
@@ -44,32 +37,20 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public boolean checkPassengerStatus(long theId) {
-        Optional<Passenger> result = passengerRepository.findById(theId);
-        Passenger thePassenger;
-        if (result.isPresent()) {
-            thePassenger = result.get();
-            return thePassenger.getStatus().equals("inactive");
-        } else {
-            throw new RuntimeException("Did not find Passenger ID" + theId);
-        }
+        Passenger thePassenger = passengerRepository.findById(theId).orElseThrow(RuntimeException::new);
+        return thePassenger.getStatus().equals(Status.INACTIVE.getCode());
     }
 
     @Override
     public void updatePassenger(Passenger passenger) {
-        Optional<Passenger> result = passengerRepository.findById(passenger.getId());
-        Passenger thePassenger;
-        if (result.isPresent()) {
-            thePassenger = result.get();
-            thePassenger.setStatus(passenger.getStatus());
-            passengerRepository.save(thePassenger);
-        } else {
-            throw new RuntimeException("Did not find Passenger ID" + passenger.getId());
-        }
+        Passenger thePassenger = passengerRepository.findById(passenger.getId()).orElseThrow(RuntimeException::new);
+        thePassenger.setStatus(passenger.getStatus());
+        passengerRepository.save(thePassenger);
     }
 
     @Override
     public List<Passenger> findAvailablePassengers() {
-        return passengerRepository.findByStatusContainingIgnoreCase("inactive");
+        return passengerRepository.findByStatusContainingIgnoreCase(Status.INACTIVE.getCode());
     }
 
     @Override
@@ -79,7 +60,7 @@ public class PassengerServiceImpl implements PassengerService {
         passenger.setName(signupModel.getName());
         passenger.setGender(signupModel.getGender());
         passenger.setPhoneNo(signupModel.getPhoneNo());
-        passenger.setStatus("inactive");
+        passenger.setStatus(Status.INACTIVE.getCode());
         return this.save(passenger);
     }
 }

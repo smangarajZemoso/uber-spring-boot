@@ -7,7 +7,7 @@ import com.app.mycoolapp.entity.Passenger;
 import com.app.mycoolapp.entity.Trip;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+//@Mapper(componentModel = "spring")
 public interface EntityMapper {
     
     SignUpResponse driverToSignupResponse(Driver driver);

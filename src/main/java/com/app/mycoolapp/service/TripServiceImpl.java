@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -31,22 +30,15 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public void deleteById(long theId) {
-
     }
 
     @Override
     public Trip updateTrip(Trip trip) {
-        Optional<Trip> result = tripRepository.findById(trip.getId());
-        Trip theTrip;
-        if (result.isPresent()) {
-            theTrip = result.get();
-            theTrip.setStatus(trip.getStatus());
-            theTrip.setEndTime(trip.getEndTime());
-            tripRepository.save(theTrip);
-            return theTrip;
-        } else {
-            throw new RuntimeException("Did not find Passenger ID" + trip.getId());
-        }
+        Trip theTrip = tripRepository.findById(trip.getId()).orElseThrow(RuntimeException::new);
+        theTrip.setStatus(trip.getStatus());
+        theTrip.setEndTime(trip.getEndTime());
+        tripRepository.save(theTrip);
+        return theTrip;
     }
 
     @Override

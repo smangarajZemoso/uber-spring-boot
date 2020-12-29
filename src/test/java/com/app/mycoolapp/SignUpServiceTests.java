@@ -2,40 +2,62 @@ package com.app.mycoolapp;
 
 import com.app.mycoolapp.dto.SignUpResponse;
 import com.app.mycoolapp.dto.SignupModel;
+import com.app.mycoolapp.entity.Driver;
+import com.app.mycoolapp.entity.Passenger;
+import com.app.mycoolapp.mapper.EntityMapper;
 import com.app.mycoolapp.service.DriverService;
 import com.app.mycoolapp.service.PassengerService;
-import com.app.mycoolapp.service.SignUpService;
+import com.app.mycoolapp.service.SignUpServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SignUpServiceTests {
 
     @InjectMocks
-    public SignUpService signUpService;
+    SignUpServiceImpl signUpService;
 
-    SignupModel signupModel;
+    @Mock
+    DriverService driverService;
+
+    @Mock
+    PassengerService passengerService;
+
+    @Mock
+    EntityMapper entityMapper;
+
+    SignupModel signupModelDriver;
+    SignupModel signupModelPassenger;
+    SignUpResponse testSignUpResponse;
 
     @Before
     public void setup() {
-        signupModel = new SignupModel("driver", "soumya", "989839148", "male", "D123");
+        signupModelPassenger = new SignupModel("passenger", "soumya", "989839148", "male", "sad23");
+        testSignUpResponse = new SignUpResponse(11, "soumya", "989839148", "male", "inactive");
+        signupModelDriver = new SignupModel("driver", "soumya", "989839148", "male", "sad23");
     }
 
     @Test
-    public void testSignUp() {
-        SignUpResponse signUpResponse = signUpService.signup(signupModel);
-//        Assert.assse
-//        Mockito.when(repository.findByUserId(Mockito.eq(userId))).thenReturn(Optional.empty());
-//        Mockito.when(repository.save(Mockito.any(User.class))).thenReturn(testUser);
-//        User savedUser= userService.save(testUser);
-//        Assert.assertEquals(testUser,savedUser);
-//        Mockito.verify(repository).findByUserId(userId);
-//        Mockito.verify(passwordEncoder,Mockito.times(1)).encode(testUser.getPassword());
-//        Mockito.verify(roleRepository).findByName("ROLE_USER");
+    public void testPassengerSignUp() {
+        System.out.println("Test Passenger Signup API");
+        Mockito.when(passengerService.signup(Mockito.eq(signupModelPassenger))).thenReturn(new Passenger());
+        Mockito.when(entityMapper.passengerToSignupResponse(new Passenger())).thenReturn(testSignUpResponse);
+        SignUpResponse signUpResponse = signUpService.signup(signupModelPassenger);
+        Assert.assertEquals(testSignUpResponse, signUpResponse);
+    }
+
+    @Test
+    public void testDriverSignUp() {
+        System.out.println("Test Driver Signup API");
+        Mockito.when(driverService.signup(Mockito.eq(signupModelDriver))).thenReturn(new Driver());
+        Mockito.when(entityMapper.driverToSignupResponse(new Driver())).thenReturn(testSignUpResponse);
+        SignUpResponse signUpResponse = signUpService.signup(signupModelDriver);
+        Assert.assertEquals(testSignUpResponse, signUpResponse);
     }
 }

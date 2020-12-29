@@ -17,7 +17,7 @@ public interface DriverService {
 
     long getSingleAvailableDriver();
 
-    void updateDriver(Driver theDriver);
+    Driver updateDriver(Driver theDriver);
 
     List<Driver> findAvailableDrivers();
 

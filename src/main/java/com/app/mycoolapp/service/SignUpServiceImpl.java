@@ -21,11 +21,9 @@ public class SignUpServiceImpl implements SignUpService {
     @Override
     public SignUpResponse signup(SignupModel signupModel) {
         if (signupModel.getType().equals("driver")) {
-            SignUpResponse signUpResponse = entityMapper.driverToSignupResponse(driverService.signup(signupModel));
-            return signUpResponse;
+            return entityMapper.driverToSignupResponse(driverService.signup(signupModel));
         } else if (signupModel.getType().equals("passenger")) {
-            SignUpResponse signUpResponse = entityMapper.passengerToSignupResponse(passengerService.signup(signupModel));
-            return signUpResponse;
+            return entityMapper.passengerToSignupResponse(passengerService.signup(signupModel));
         } else {
             throw new RuntimeException("This is not a valid type of User");
         }
