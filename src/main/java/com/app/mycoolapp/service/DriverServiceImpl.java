@@ -33,8 +33,8 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public void save(Driver theDriver) {
-        driverRepository.save(theDriver);
+    public Driver save(Driver theDriver) {
+        return driverRepository.save(theDriver);
     }
 
     @Override
@@ -45,7 +45,6 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public long getSingleAvailableDriver() {
         List<Driver> drivers = driverRepository.findFirst1ByStatusContainingIgnoreCase("inactive");
-//        System.out.println(drivers);
         return drivers.get(0).getId();
     }
 
@@ -71,12 +70,11 @@ public class DriverServiceImpl implements DriverService {
     public Driver signup(SignupModel signupModel) {
         Driver driver = new Driver();
         driver.setId(0);
-        driver.setName(signupModel.name);
-        driver.setGender(signupModel.gender);
-        driver.setPhoneNo(signupModel.phoneNo);
-        driver.setCabId(signupModel.cabId);
+        driver.setName(signupModel.getName());
+        driver.setGender(signupModel.getGender());
+        driver.setPhoneNo(signupModel.getPhoneNo());
+        driver.setCabId(signupModel.getCabId());
         driver.setStatus("inactive");
-        this.save(driver);
-        return driver;
+        return this.save(driver);
     }
 }

@@ -12,21 +12,21 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/passengers")
 public class PassengerRestController {
 
     @Autowired
     public PassengerService passengerService;
 
-    @GetMapping("/passengers")
-    @ResponseBody
+    @GetMapping()
     public List<Passenger> findAll() {
         return passengerService.findAll();
     }
 
-    @GetMapping("/availablepassengers")
+    @GetMapping("/available")
     @ResponseBody
-    public List<Passenger> findAvailableDrivers() {
+    public List<Passenger> findAvailablePassengers() {
         return passengerService.findAvailablePassengers();
     }
+
 }

@@ -1,36 +1,20 @@
 package com.app.mycoolapp.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "Driver")
-@Getter
-@Setter
-public class Driver implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "phone_no")
-    private String phoneNo;
-
-    @Column(name = "gender")
-    private String gender;
+@Table(name = "DriverT")
+@Data
+public class Driver extends Actor implements Serializable {
 
     @Column(name = "cab_id")
     private String cabId;
-
-    @Column(name = "status")
-    private String status;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver_id")

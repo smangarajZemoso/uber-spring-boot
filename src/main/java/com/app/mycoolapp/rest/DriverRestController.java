@@ -9,21 +9,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/drivers")
 public class DriverRestController {
 
     @Autowired
     public DriverService driverService;
 
-    @GetMapping("/drivers")
-    @ResponseBody
-    public ResponseEntity<Object> findAll() {
-        return ResponseEntity.ok(driverService.findAll());
-//        return ResponseEntity.noContent().build();
+    @GetMapping()
+    public List<Driver> findAll() {
+        return driverService.findAll();
     }
 
-    @GetMapping("/availabledrivers")
-    @ResponseBody
+    @GetMapping("/available")
     public List<Driver> findAvailableDrivers() {
         return driverService.findAvailableDrivers();
     }

@@ -1,12 +1,10 @@
 package com.app.mycoolapp.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ResponseModel {
-    public int status;
-    public String message;
-    public Object dataObject;
+    private int status;
+    private String message;
+    private Object dataObject;
 }

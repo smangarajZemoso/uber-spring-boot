@@ -11,7 +11,7 @@ public interface PassengerService {
 
     Passenger findById(long theId);
 
-    void save(Passenger thePassenger);
+    Passenger save(Passenger thePassenger);
 
     void deleteById(long theId);
 

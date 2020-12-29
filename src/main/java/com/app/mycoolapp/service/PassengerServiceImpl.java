@@ -33,8 +33,8 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public void save(Passenger thePassenger) {
-        passengerRepository.save(thePassenger);
+    public Passenger save(Passenger thePassenger) {
+        return passengerRepository.save(thePassenger);
     }
 
     @Override
@@ -76,11 +76,10 @@ public class PassengerServiceImpl implements PassengerService {
     public Passenger signup(SignupModel signupModel) {
         Passenger passenger = new Passenger();
         passenger.setId(0);
-        passenger.setName(signupModel.name);
-        passenger.setGender(signupModel.gender);
-        passenger.setPhoneNo(signupModel.phoneNo);
+        passenger.setName(signupModel.getName());
+        passenger.setGender(signupModel.getGender());
+        passenger.setPhoneNo(signupModel.getPhoneNo());
         passenger.setStatus("inactive");
-        this.save(passenger);
-        return passenger;
+        return this.save(passenger);
     }
 }

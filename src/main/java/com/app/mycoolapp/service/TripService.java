@@ -13,7 +13,7 @@ public interface TripService {
 
     Trip findById(long theId);
 
-    void save(Trip theTrip);
+    Trip save(Trip theTrip);
 
     void deleteById(long theId);
 
@@ -21,5 +21,4 @@ public interface TripService {
 
     List<Trip> findAllByTripObject(Trip theTrip);
 
-    Trip bookTrip(BookTripModel bookTripModel, Driver driver, Passenger passenger);
 }

@@ -1,12 +1,10 @@
 package com.app.mycoolapp.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class BookTripModel {
-    public long passengerId;
-    public String startLocId;
-    public String endLocId;
+    private long passengerId;
+    private String startLocId;
+    private String endLocId;
 }
